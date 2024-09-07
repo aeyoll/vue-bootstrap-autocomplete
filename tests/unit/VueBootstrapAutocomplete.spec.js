@@ -124,11 +124,12 @@ describe('VueBootstrapAutocomplete', () => {
     expect(child.isVisible()).toBe(false)
   })
 
-  it('Renders the list in different sizes', () => {
+  it('Renders the list in different sizes', async () => {
     expect(wrapper.vm.inputGroupClasses).toBe('input-group')
     wrapper.setProps({
       size: 'lg'
     })
+    await wrapper.vm.$nextTick()
     expect(wrapper.vm.inputGroupClasses).toBe('input-group input-group-lg')
   })
 
