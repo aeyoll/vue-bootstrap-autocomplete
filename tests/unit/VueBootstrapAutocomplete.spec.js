@@ -250,7 +250,7 @@ describe('VueBootstrapAutocomplete', () => {
             :data="data"
             v-model="query"
             no-results-info="No results found"
-          />
+          >
           </vue-bootstrap-autocomplete>
         `
       })
@@ -409,7 +409,7 @@ describe('VueBootstrapAutocomplete', () => {
             :data="data"
             v-model="query"
             no-results-info="No results found"
-          />
+          >
           </vue-bootstrap-autocomplete>
         `
       })
