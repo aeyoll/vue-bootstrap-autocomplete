@@ -236,7 +236,7 @@ export default {
     },
 
     handleHit(evt) {
-      if (typeof this.value !== 'undefined') {
+      if (typeof this.modelValue !== 'undefined') {
         this.$emit('input', evt.text)
         this.$refs.list.resetActiveListItem()
       }
@@ -284,7 +284,7 @@ export default {
       this.inputValue = newValue
 
       // If v-model is being used, emit an input event
-      if (typeof this.value !== 'undefined') {
+      if (typeof this.modelValue !== 'undefined') {
         this.$emit('input', newValue)
         this.$refs.list.resetActiveListItem()
       }
@@ -308,7 +308,7 @@ export default {
   data() {
     return {
       isFocused: false,
-      inputValue: this.value || ''
+      inputValue: this.modelValue || ''
     }
   },
 
@@ -325,7 +325,7 @@ export default {
   },
 
   watch: {
-    value: function (val) {
+    modelValue: function (val) {
       this.inputValue = val
     }
   }
