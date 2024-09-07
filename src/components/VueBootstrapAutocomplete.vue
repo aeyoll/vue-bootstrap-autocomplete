@@ -86,7 +86,6 @@
 <script>
 import VueBootstrapAutocompleteList from './VueBootstrapAutocompleteList.vue'
 import ResizeObserver from 'resize-observer-polyfill'
-import mitt from 'mitt'
 
 export default {
   name: 'VueBootstrapAutocomplete',
