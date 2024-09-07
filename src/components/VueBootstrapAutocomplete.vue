@@ -21,7 +21,7 @@
         :id="`typeahead-input-${id}`"
         type="text"
         role="searchbox"
-        :class="[ 'form-control', inputClass, state !== null && { 'is-invalid': !state, 'is-valid': state } ]"
+        :class="`form-control ${inputClass}`"
         :aria-labelledby="ariaLabelledBy"
         aria-multiline="false"
         aria-autocomplete="list"
@@ -36,7 +36,7 @@
         @blur="handleFocusOut"
         @input="handleInput($event.target.value)"
         @keydown.esc="handleEsc($event.target.value)"
-        @keyup="$emit('keyup', $event)"
+        @keyup="handleKeyup"
         @paste="$emit('paste', $event)"
       />
       <div v-if="$slots.append || append" class="input-group-append">
@@ -49,7 +49,7 @@
       :id="`result-list-${id}`"
       class="vbt-autocomplete-list"
       ref="list"
-      v-show="isFocused && (data.length > 0 || !!$scopedSlots.noResultsInfo || !!noResultsInfo)"
+      v-show="isFocused && (data.length > 0 || !!$slots.noResultsInfo || !!noResultsInfo)"
       :query="inputValue"
       :data="formattedData"
       :background-variant="backgroundVariant"
@@ -70,14 +70,13 @@
     >
       <!-- pass down all scoped slots -->
       <template
-        v-for="(slot, slotName) in $scopedSlots"
-        :slot="slotName"
-        slot-scope="{ data, htmlText }"
+        v-for="(slot, slotName) in $slots"
+        v-slot:[slotName]="{ data, htmlText }"
       >
         <slot :name="slotName" v-bind="{ data, htmlText }"></slot>
       </template>
-      <!-- below is the right solution, however if the user does not provide a scoped slot, vue will still set $scopedSlots.suggestion to a blank scope
-      <template v-if="$scopedSlots.suggestion" slot="suggestion" slot-scope="{ data, htmlText }">
+      <!-- below is the right solution, however if the user does not provide a scoped slot, vue will still set $slots.suggestion to a blank scope
+      <template v-if="$slots.suggestion" v-slot:[suggestion]="{ data, htmlText }">
         <slot name="suggestion" v-bind="{ data, htmlText }" />
       </template>-->
     </vue-bootstrap-autocomplete-list>
@@ -87,6 +86,7 @@
 <script>
 import VueBootstrapAutocompleteList from './VueBootstrapAutocompleteList.vue'
 import ResizeObserver from 'resize-observer-polyfill'
+import mitt from 'mitt'
 
 export default {
   name: 'VueBootstrapAutocomplete',
@@ -181,11 +181,7 @@ export default {
     placeholder: String,
     prepend: String,
     append: String,
-    highlightClass: String,
-    state: {
-      type: Boolean,
-      default: null
-    }
+    highlightClass: String
   },
 
   emits: ['hit', 'input', 'keyup', 'focus', 'blur', 'paste'],
@@ -243,6 +239,7 @@ export default {
     handleHit(evt) {
       if (typeof this.value !== 'undefined') {
         this.$emit('input', evt.text)
+        this.$refs.list.resetActiveListItem()
       }
 
       this.inputValue = evt.text
@@ -262,9 +259,6 @@ export default {
     runFocusOut(evt) {
       const tgt = evt.relatedTarget
       if (tgt && tgt.classList.contains('vbst-item')) {
-        return
-      }
-      if (this.$refs.list.$el.matches(':hover')) {
         return
       }
       this.$emit('blur', evt)
@@ -293,6 +287,7 @@ export default {
       // If v-model is being used, emit an input event
       if (typeof this.value !== 'undefined') {
         this.$emit('input', newValue)
+        this.$refs.list.resetActiveListItem()
       }
     },
 
@@ -303,6 +298,11 @@ export default {
       } else {
         this.inputValue = ''
       }
+    },
+
+    handleKeyup(event) {
+      this.$emit('keyup', event)
+      this.$refs.list.handleParentInputKeyup(event)
     }
   },
 
@@ -321,7 +321,7 @@ export default {
     this.$_ro.observe(this.$refs.list.$el)
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     this.$_ro.disconnect()
   },
 
