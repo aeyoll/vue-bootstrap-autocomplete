@@ -278,10 +278,10 @@ export default {
         this.activeListItem = BEFORE_LIST_INDEX
       }
 
-      let reversedList = reverse(clone(this.matchedItems))
-      let currentReversedIndex =
+      const reversedList = reverse(clone(this.matchedItems))
+      const currentReversedIndex =
         this.matchedItems.length - 1 - this.activeListItem
-      let nextReverseIndex = this.findIndexForNextActiveItem(
+      const nextReverseIndex = this.findIndexForNextActiveItem(
         reversedList,
         currentReversedIndex
       )
