@@ -104,7 +104,7 @@ export default {
       default: null,
       validator: (size) => ['lg', 'md', 'sm'].indexOf(size) > -1
     },
-    value: {
+    modelValue: {
       type: String
     },
     disabled: {
