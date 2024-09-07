@@ -343,7 +343,7 @@ export default {
   overflow-y: auto;
   z-index: 999;
 }
-.vbt-autocomplete-list >>> .vbt-matched-text {
+.vbt-autocomplete-list :deep(.vbt-matched-text) {
   font-weight: bold;
 }
 </style>
