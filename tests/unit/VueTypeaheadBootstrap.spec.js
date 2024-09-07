@@ -143,7 +143,7 @@ describe('VueBootstrapAutocomplete', () => {
 
     it('triggers the correct event when hitting enter', () => {
       let child = wrapper.findComponent(VueBootstrapAutocompleteList)
-      const hitActive = jest.spyOn(child.vm, 'hitActiveListItem')
+      const hitActive = vi.spyOn(child.vm, 'hitActiveListItem')
       let input = wrapper.find('input')
 
       input.trigger('keyup.enter')
@@ -153,7 +153,7 @@ describe('VueBootstrapAutocomplete', () => {
 
     it('triggers the correct event when hitting the down arrow', () => {
       let child = wrapper.findComponent(VueBootstrapAutocompleteList)
-      const selectNextListItem = jest.spyOn(child.vm, 'selectNextListItem')
+      const selectNextListItem = vi.spyOn(child.vm, 'selectNextListItem')
       let input = wrapper.find('input')
 
       input.trigger('keyup.down')
@@ -163,7 +163,7 @@ describe('VueBootstrapAutocomplete', () => {
 
     it('triggers the correct event when hitting up arrow', () => {
       let child = wrapper.findComponent(VueBootstrapAutocompleteList)
-      const selectPreviousListItem = jest.spyOn(child.vm, 'selectPreviousListItem')
+      const selectPreviousListItem = vi.spyOn(child.vm, 'selectPreviousListItem')
       let input = wrapper.find('input')
 
       input.trigger('keyup.up')
