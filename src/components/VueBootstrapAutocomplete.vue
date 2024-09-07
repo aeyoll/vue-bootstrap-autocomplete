@@ -183,7 +183,7 @@ export default {
     highlightClass: String
   },
 
-  emits: ['hit', 'input', 'keyup', 'focus', 'blur', 'paste'],
+  emits: ['hit', 'input', 'keyup', 'focus', 'blur', 'paste', 'update:modelValue'],
 
   computed: {
     id() {
