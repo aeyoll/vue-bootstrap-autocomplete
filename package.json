@@ -1,6 +1,6 @@
 {
   "name": "vue3-bootstrap-autocomplete",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "private": false,
   "description": "A typeahead/autocomplete component for Vue 3 using Bootstrap 5",
   "keywords": [
