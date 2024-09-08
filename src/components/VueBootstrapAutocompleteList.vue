@@ -18,6 +18,9 @@
       :text-variant="textVariant"
       @click="handleHit(item, $event)"
       v-bind="$attrs"
+      @hitActiveListItem="hitActiveListItem"
+      @selectNextListItem="selectNextListItem"
+      @selectPreviousListItem="selectPreviousListItem"
     >
       <template
         v-if="$slots.suggestion"
