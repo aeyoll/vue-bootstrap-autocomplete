@@ -1,55 +1,138 @@
-![Nodejs workflow status](https://github.com/drikusroor/vue-bootstrap-autocomplete/actions/workflows/nodejs.yml/badge.svg) [![npm version](https://badge.fury.io/js/@vue-bootstrap-components%2Fvue-bootstrap-autocomplete.svg)](https://badge.fury.io/js/@vue-bootstrap-components%2Fvue-bootstrap-autocomplete)
-
-# Contributors and PRs welcome
-Hello everyone. `vue-bootstrap-autocomplete` is a continuation of where [vue-typeahead-bootstrap](https://github.com/mattzollinhofer/vue-typeahead-bootstrap) left off. To move this project forward again, every contribution is welcome. Fixing bugs, adding features, improving documentation, every bit helps so don't be afraid to open a pull request. I won't bite, I promise.
+![Nodejs workflow status](https://github.com/aeyoll/vue-bootstrap-autocomplete/actions/workflows/nodejs.yml/badge.svg)
 
 # vue-bootstrap-autocomplete
 
-A simple `list-group` based typeahead/autocomplete using Bootstrap 4 and Vue 2
+A simple `list-group` based typeahead/autocomplete using Bootstrap 5 and Vue 3
 
-<img src="https://raw.githubusercontent.com/drikusroor/vue-bootstrap-autocomplete/main/assets/screenshot.png" alt="Preview image of the vue-bootstrap-autocomplete component">
+<img src="https://raw.githubusercontent.com/aeyoll/vue-bootstrap-autocomplete/main/assets/screenshot.png" alt="Preview image of the vue-bootstrap-autocomplete component">
 
-Here are some live examples, [give them a try here.](https://drikusroor.github.io/vue-bootstrap-autocomplete/examples/examples.html#custom-suggestion-slot)
+Getting started
+---
 
-## Getting Started
-[Getting started guide is here.](https://drikusroor.github.io/vue-bootstrap-autocomplete/guide/gettingStarted.html#installation)
+### Installation
 
-## Documentation
-[Docs are here.](https://drikusroor.github.io/vue-bootstrap-autocomplete/)
+```bash
+// npm
+npm install vue3-bootstrap-autocomplete
 
-## Contributing
-Please note that active development is done on the `main` branch. PR's are welcome! Here are the basic steps to get going.
+// yarn
+yarn add vue3-bootstrap-autocomplete
+```
 
-Here are the steps to getting the project to work locally:
+### Registration
 
-1. Clone the repo: `git clone git@github.com:drikusroor/vue-bootstrap-autocomplete.git`
-2. `npm ci`
-3. `vuepress dev docs`
-4. Open a browser and go to localhost:8080
+```js
+import VueBootstrapAutocomplete from 'vue3-bootstrap-autocomplete';
 
-* Then to run tests: `npm run test:unit`
+// Required dependency of bootstrap css/scss files
+import 'bootstrap/scss/bootstrap.scss';
 
-## 2.13.0 Release - Migration Necessary
-If you were using a version prior to 2.13.0, you'll need to change all references of `vue-bootstrap-typeahead` or `vue-typeahead-bootstrap` to `vue-bootstrap-autocomplete` and of `VueBootstrapTypeahead` or `VueTypeaheadBootstrap` to `VueBootstrapAutocomplete`.
+// Global registration
+Vue.component('vue-bootstrap-autocomplete', VueBootstrapAutocomplete)
 
-### **tl;dr**
-Replace old by new:
-| Old | New |
-| --- | --- |
-| `vue-bootstrap-typeahead` | `vue-bootstrap-autocomplete` |
-| `vue-typeahead-bootstrap` | `vue-bootstrap-autocomplete` |
-| `VueBootstrapTypeahead` | `VueBootstrapAutocomplete` |
-| `VueTypeaheadBootstrap` | `VueBootstrapAutocomplete` |
+// or
 
-The original projects lost its maintainers, and we picked it up to keep it moving. 
+// Local Registration
+export default {
+  components: {
+    VueBootstrapAutocomplete
+  }
+}
+```
 
-More info here if you're interested:
-* [vue-bootstrap-typeahead](https://github.com/alexurquhart/vue-bootstrap-typeahead/issues/60)
-* [vue-typeahead-bootstrap](https://github.com/mattzollinhofer/vue-typeahead-bootstrap)
+Basic Usage
+---
 
-## Local Examples/Demo
-Clone this repository and run `vuepress dev docs`. Then, navigate to http://localhost:8080/vue-bootstrap-autocomplete-docs/ to launch the documentation and examples. The source is in `docs/README.md` and `docs/.vuepress`
+The only required props are a `v-model` and a `data` array.
 
-## Lineage
-* I want to acknowledge the original repository by Alex Urquhart for this work: https://github.com/alexurquhart/vue-bootstrap-typeahead.
-* I also want to acknowledge the continuation of Matt Zollinhofer of this project: https://github.com/mattzollinhofer/vue-typeahead-bootstrap.
+```html
+<vue-bootstrap-autocomplete
+  v-model="query"
+  :data="['Canada', 'United States', 'Mexico', 'Netherlands']"
+/>
+```
+
+Reference
+---
+
+### Props
+
+| Name                       |   type    | Default            | Description                                                                                                                                                                                                                                                        |
+| -------------------------- | :-------: | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| append                     |  String   |                    | Text to be appended to the `input-group`                                                                                                                                                                                                                           |
+| autoClose                  | `Boolean` | true               | Whether the autocomplete should hide upon item selection                                                                                                                                                                                                           |
+| backgroundVariant          |  String   |                    | Background color for the autocomplete result `list-group` items. [See values here.][1]                                                                                                                                                                             |
+| backgroundVariantResolver  | Function  | input => null      | Function which accepts the current list item data and returns a background color for the current autocomplete result `list-group` item. The non-null/non-empty string value returned from this function will supersede the value specified in `backgroundVariant`. |
+| data                       |   Array   |                    | Array of data to be available for querying. **Required**                                                                                                                                                                                                           |
+| disabled                   | `Boolean` | false              | Enable or disable input field                                                                                                                                                                                                                                      |
+| disabledValues             |  `Array`  | false              | The dropdown items to `disable`.                                                                                                                                                                                                                                   |
+| disableSort                | `Boolean` | false              | If set to true, no sorting occurs and the list is presented to the user as it is given to the component. Use this if you sort the list before giving it to the component. Ex: an elasticsearch result being passed to Vue.                                         |
+| highlightClass             | `String`  | `vbt-matched-text` | CSS class to style highlighted text                                                                                                                                                                                                                                |
+| ieCloseFix                 |  Boolean  | true               | Adds (imperfect) handling for auto closing the typeahead list on focus out in IE                                                                                                                                                                                   |
+| inputClass                 |  String   |                    | Class to be added to the `input` tag for validation, etc.                                                                                                                                                                                                          |
+| inputName                  |  String   |                    | Name to be added to the `input` tag.                                                                                                                                                                                                                               |
+| maxMatches                 |  Number   | 10                 | Maximum amount of list items to appear.                                                                                                                                                                                                                            |
+| minMatchingChars           |  Number   | 2                  | Minimum matching characters in query before the typeahead list appears                                                                                                                                                                                             |
+| noResultsInfo              |  String   | No results found.  | Text to display when no results are found                                                                                                                                                                                                                          |
+| prepend                    |  String   |                    | Text to be prepended to the `input-group`                                                                                                                                                                                                                          |
+| screenReaderTextSerializer | Function  | `input => input`   | Function used to convert the entries in the data array into the screen reader text string. Falls back to the value of serializer.                                                                                                                                  |
+| serializer                 | Function  | `input => input`   | Function used to convert the entries in the data array into a text string.                                                                                                                                                                                         |
+| showAllResults             | `Boolean` | false              | Show all results even ones that highlighting doesn't match. This is useful when interacting with a API that returns results based on different values than what is displayed. Ex: user searches for "USA" and the service returns "United States of America".      |
+| showOnFocus                | `Boolean` | false              | Show results as soon as the input gains focus before the user has typed anything.                                                                                                                                                                                  |
+| size                       |  String   |                    | Size of the `input-group`. Valid values: `sm`, `md`, or `lg`                                                                                                                                                                                                       |
+| textVariant                |  String   |                    | Text color for autocomplete result `list-group` items. [See values here.][2]                                                                                                                                                                                       |
+| state                      |  Boolean  |                | Whether the autocomplete should be in a valid or invalid state.                                                                                                                                                                                                               |
+### Events
+
+| Name  | Description                                                                                                                                                                                                         |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| blur  | Triggered when the input field loses focus, except when pressing the `tab` key to focus the dropdown list.                                                                                                          |
+| focus | Triggered when the input element receives focus.                                                                                                                                                                    |
+| hit   | Triggered when an autocomplete item is selected. The entry in the input data array that was selected is returned. If no autocomplete item is selected, the first entry matching the query is selected and returned. |
+| input | The component can be used with `v-model`                                                                                                                                                                            |
+| keyup | Triggered when any keyup event is fired in the input. Often used for catching `keyup.enter`.                                                                                                                        |
+| paste | Triggered when the user pastes text into the input field.                                                                                                                                                           |
+
+### Slots
+
+#### Prepend / Append
+
+There are `prepend` and `append` slots available for adding buttons or other markup. Overrides the prepend and append props.
+
+##### Example
+
+```html
+<vue-bootstrap-autocomplete :data="data" v-model="value">
+  <template #prepend>
+    <button class="btn btn-primary">Prepend</button>
+  </template>
+  <template #append>
+    <button class="btn btn-primary">Append</button>
+  </template>
+</vue-bootstrap-autocomplete>
+```
+
+#### No Results Info
+
+There is a `noResultsInfo` slot available for customizing the no results info text. Overrides the `noResultsInfo` fallback content, which is undefined by default.
+
+##### Example
+
+```html
+<vue-bootstrap-autocomplete :data="data" v-model="query">
+  <template #noResultsInfo>
+    <span>No results for <b>{{ query }}</b></span>
+  </template>
+</vue-bootstrap-autocomplete>
+```
+
+#### Scoped Slot
+
+You can use a [scoped slot][3] called `suggestion` to define custom content for the suggestion `list-item`'s. You can use bound variables `data`, which holds the data from the input array, and `htmlText`, which is the highlighted text that is used for the suggestion.
+
+See the [custom suggestion slot example][4] for more info.
+
+[1]: https://getbootstrap.com/docs/4.1/components/list-group/#contextual-classes
+[2]: https://getbootstrap.com/docs/4.1/utilities/colors/#color
+[3]: https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots
+[4]: https://drikusroor.github.io/vue-bootstrap-autocomplete-docs/examples/examples.html#custom-suggestion-slot
