@@ -238,7 +238,7 @@ export default {
     handleHit(evt) {
       if (typeof this.modelValue !== 'undefined') {
         this.$emit('input', evt.text)
-        this.$emit('update:modelValue', evt.text);
+        this.$emit('update:modelValue', evt.text)
         this.$refs.list.resetActiveListItem()
       }
 
@@ -287,7 +287,7 @@ export default {
       // If v-model is being used, emit an input event
       if (typeof this.modelValue !== 'undefined') {
         this.$emit('input', newValue)
-        this.$emit('update:modelValue', newValue);
+        this.$emit('update:modelValue', newValue)
         this.$refs.list.resetActiveListItem()
       }
     },
