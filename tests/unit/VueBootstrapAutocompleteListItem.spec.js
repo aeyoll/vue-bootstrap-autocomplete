@@ -119,22 +119,16 @@ describe("VueBootstrapAutocompleteListItem.vue", () => {
 
   it("calls parent hitActiveListItem method when keyup.enter event is triggered", async () => {
     await wrapper.trigger("keyup.enter");
-
-    // Expect the parent method to have been called
-    expect(mockParent.methods.hitActiveListItem).toHaveBeenCalled();
+    expect(wrapper.emitted("hitActiveListItem")).toBeTruthy();
   });
 
   it("calls parent selectNextListItem method when keyup.down event is triggered", async () => {
     await wrapper.trigger("keyup.down");
-
-    // Expect the parent method to have been called
-    expect(mockParent.methods.selectNextListItem).toHaveBeenCalled();
+    expect(wrapper.emitted("selectNextListItem")).toBeTruthy();
   });
 
   it("calls parent selectPreviousListItem method when keyup.up event is triggered", async () => {
     await wrapper.trigger("keyup.up");
-
-    // Expect the parent method to have been called
-    expect(mockParent.methods.selectPreviousListItem).toHaveBeenCalled();
+    expect(wrapper.emitted("selectPreviousListItem")).toBeTruthy();
   });
 });
